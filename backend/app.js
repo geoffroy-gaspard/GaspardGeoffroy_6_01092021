@@ -3,8 +3,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 
-const hotSauceRoutes = require('./routes/hotsauce');
+const sauceRoutes = require('./routes/hotsauce');
 const userRoutes = require('./routes/user');
+const { dirname } = require('path');
+
+const app = express();
 
 mongoose.connect('mongodb+srv://Gaspard:Nocremix421@cluster0.pa2ua.mongodb.net/test?retryWrites=true&w=majority', {
         useNewUrlParser: true,
@@ -12,8 +15,6 @@ mongoose.connect('mongodb+srv://Gaspard:Nocremix421@cluster0.pa2ua.mongodb.net/t
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
-
-const app = express();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,7 +27,7 @@ app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/hotsauce', hotSauceRoutes);
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
