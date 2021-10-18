@@ -1,15 +1,18 @@
 const express = require('express');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 
+require('dotenv').config({ path: process.cwd() + '/.env' });
+
 const sauceRoutes = require('./routes/hotsauce');
 const userRoutes = require('./routes/user');
-const { dirname } = require('path');
 
 const app = express();
+app.use(helmet());
 
-mongoose.connect('mongodb+srv://Gaspard:Nocremix421@cluster0.pa2ua.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
